@@ -49,26 +49,26 @@
 </style></head>
 <body><main>
   <h1>TPG Atlas pre-work</h1>
-  <p>About 10 minutes. Your AI looks through your own recent work with it, drafts a few real tasks from it with you, including the questions about TPG each one needed answered, and asks you three questions of its own. You review every task and click Send yourself. It’s anonymous.</p>
+  <p>About 10 minutes. Your AI reads your recent work with it and drafts a few TPG tasks with you, plus the questions each one needed answered. You review them and click Send. It’s anonymous.</p>
   <section aria-labelledby="how-title">
     <h2 id="how-title">What happens with what you send</h2>
-    <p>Atlas is a set of notes on how TPG works, kept up to date by an AI agent that reads TPG’s docs, Slack and meetings. Your tasks and the questions behind them become the test Atlas has to pass.</p>
-    <figure class="loopfig" aria-label="Your questions become a fixed test. The agent updates Atlas, Atlas takes the test, the misses show what to fix, and the loop repeats.">
-      <div class="test"><b>The test</b>Your questions, each with the answer a good reply has to include.<span>What counts as an active newsletter subscriber?</span><span>Who owns the card catalog?</span></div>
+    <p>Atlas is a set of notes on how TPG works, kept current by an AI agent. Your questions become the test it has to pass.</p>
+    <figure class="loopfig" aria-label="Your questions become the test. The agent updates Atlas, Atlas takes the test, misses show what to fix, and it repeats.">
+      <div class="test"><b>The test</b>Your questions and their answers.<span>What counts as an active newsletter subscriber?</span><span>Who owns the card catalog?</span></div>
       <div class="into" aria-hidden="true"><span>→</span></div>
       <ol class="loop">
-        <li><b>The agent updates Atlas</b>It reads new docs, Slack and meetings and rewrites its notes.</li>
-        <li><b>Atlas takes the test</b>Claude answers each question twice: once with TPG’s docs alone, once with Atlas.</li>
-        <li><b>The answers are scored</b>Each reply is checked for the facts in your answer. The misses show what Atlas still gets wrong or never learned, and the next update goes after them.</li>
+        <li><b>The agent updates Atlas</b>From new docs, Slack and meetings.</li>
+        <li><b>Atlas takes the test</b>Claude answers each question, with and without Atlas.</li>
+        <li><b>The answers are scored</b>Misses show what to fix next.</li>
       </ol>
-      <p class="loopnote">The test stays the same while Atlas changes. An update goes live only if it scores at least as well as the last one.</p>
+      <p class="loopnote">An update ships only if it scores at least as well as the last one.</p>
     </figure>
-    <p>So the agent gets better by being graded on real questions from people at TPG, and your questions are what it’s graded on. A question nothing could answer for you is the most useful one to send.</p>
+    <p>A question nothing could answer for you is the most useful one to send.</p>
   </section>
   <section aria-labelledby="start-title">
     <h2 id="start-title">Get started</h2>
     <h3>Which AI do you use most for work?</h3>
-    <p class="small">Use more than one? Pick the one you used most for TPG work in the last month and a half.</p>
+    <p class="small">Use more than one? Pick the one you used most.</p>
     <fieldset class="choices">
       <legend hidden>Which AI do you use most for work?</legend>
       <label class="choice"><input type="radio" name="tool" value="claude-code"><b>Claude Code</b><span>In a terminal, or the Code tab in Claude Desktop</span></label>
@@ -84,7 +84,7 @@
         <a class="btn" href="claude://code/new?q=Run%20the%20TPG%20Atlas%20pre-work.%20I'm%20using%20Claude%20Code%20on%20my%20computer.%20Fetch%20https%3A%2F%2Fraw.githubusercontent.com%2Fmkhalife%2Ftpg-atlas-prework%2Fmain%2FPROMPT.md%20and%20follow%20it%20step%20by%20step.%20It%20reads%20my%20own%20AI%20history%2C%20drafts%20a%20few%20task%20records%20with%20me%2C%20and%20sends%20only%20what%20I%20approve.">Open in Claude Desktop (Code tab)</a>
         <a class="btn alt" href="claude-cli://open?q=Run%20the%20TPG%20Atlas%20pre-work.%20I'm%20using%20Claude%20Code%20on%20my%20computer.%20Fetch%20https%3A%2F%2Fraw.githubusercontent.com%2Fmkhalife%2Ftpg-atlas-prework%2Fmain%2FPROMPT.md%20and%20follow%20it%20step%20by%20step.%20It%20reads%20my%20own%20AI%20history%2C%20drafts%20a%20few%20task%20records%20with%20me%2C%20and%20sends%20only%20what%20I%20approve.">Open Claude Code in a terminal</a>
       </div>
-      <p class="small">The button opens the app with a short prompt typed in. Press Enter to start. If nothing opens, copy the prompt and paste it into a new Claude Code session.</p>
+      <p class="small">Opens the app with a prompt typed in. Press Enter to start. If nothing opens, copy the prompt into a new Claude Code session.</p>
       <textarea readonly id="prompt-claude-code" aria-label="Prompt for Claude Code">Run the TPG Atlas pre-work. I'm using Claude Code on my computer. Fetch https://raw.githubusercontent.com/mkhalife/tpg-atlas-prework/main/PROMPT.md and follow it step by step. It reads my own AI history, drafts a few task records with me, and sends only what I approve.</textarea>
       <button class="copy" type="button" data-for="prompt-claude-code">Copy the prompt</button>
     </section>
@@ -95,7 +95,7 @@
         <a class="btn" href="claude://claude.ai/new?q=Run%20the%20TPG%20Atlas%20pre-work.%20I'm%20using%20Claude%20in%20a%20chat.%20Fetch%20https%3A%2F%2Fraw.githubusercontent.com%2Fmkhalife%2Ftpg-atlas-prework%2Fmain%2FPROMPT.md%20and%20follow%20it%20step%20by%20step.%20It%20reads%20my%20own%20AI%20history%2C%20drafts%20a%20few%20task%20records%20with%20me%2C%20and%20sends%20only%20what%20I%20approve.">Open in the Claude app</a>
         <a class="btn alt" href="https://claude.ai/new?q=Run%20the%20TPG%20Atlas%20pre-work.%20I'm%20using%20Claude%20in%20a%20chat.%20Fetch%20https%3A%2F%2Fraw.githubusercontent.com%2Fmkhalife%2Ftpg-atlas-prework%2Fmain%2FPROMPT.md%20and%20follow%20it%20step%20by%20step.%20It%20reads%20my%20own%20AI%20history%2C%20drafts%20a%20few%20task%20records%20with%20me%2C%20and%20sends%20only%20what%20I%20approve.">Open claude.ai in your browser</a>
       </div>
-      <p class="small">The button opens the app with a short prompt typed in. Press Enter to start. If nothing opens, copy the prompt and paste it into a new Claude session.</p>
+      <p class="small">Opens the app with a prompt typed in. Press Enter to start. If nothing opens, copy the prompt into a new Claude session.</p>
       <textarea readonly id="prompt-claude" aria-label="Prompt for Claude">Run the TPG Atlas pre-work. I'm using Claude in a chat. Fetch https://raw.githubusercontent.com/mkhalife/tpg-atlas-prework/main/PROMPT.md and follow it step by step. It reads my own AI history, drafts a few task records with me, and sends only what I approve.</textarea>
       <button class="copy" type="button" data-for="prompt-claude">Copy the prompt</button>
     </section>
@@ -105,7 +105,7 @@
       <div class="buttons">
         <a class="btn" href="https://claude.ai/code?q=Run%20the%20TPG%20Atlas%20pre-work.%20I'm%20using%20Claude%20Code%20on%20the%20web.%20Fetch%20https%3A%2F%2Fraw.githubusercontent.com%2Fmkhalife%2Ftpg-atlas-prework%2Fmain%2FPROMPT.md%20and%20follow%20it%20step%20by%20step.%20It%20reads%20my%20own%20AI%20history%2C%20drafts%20a%20few%20task%20records%20with%20me%2C%20and%20sends%20only%20what%20I%20approve.">Open claude.ai/code</a>
       </div>
-      <p class="small">The button opens the app with a short prompt typed in. Press Enter to start. If nothing opens, copy the prompt and paste it into a new Claude Code on the web session.</p>
+      <p class="small">Opens the app with a prompt typed in. Press Enter to start. If nothing opens, copy the prompt into a new Claude Code on the web session.</p>
       <textarea readonly id="prompt-claude-web" aria-label="Prompt for Claude Code on the web">Run the TPG Atlas pre-work. I'm using Claude Code on the web. Fetch https://raw.githubusercontent.com/mkhalife/tpg-atlas-prework/main/PROMPT.md and follow it step by step. It reads my own AI history, drafts a few task records with me, and sends only what I approve.</textarea>
       <button class="copy" type="button" data-for="prompt-claude-web">Copy the prompt</button>
     </section>
@@ -115,7 +115,7 @@
       <div class="buttons">
         <a class="btn" href="codex://threads/new?prompt=Run%20the%20TPG%20Atlas%20pre-work.%20I'm%20using%20Codex%20in%20the%20ChatGPT%20desktop%20app.%20Fetch%20https%3A%2F%2Fraw.githubusercontent.com%2Fmkhalife%2Ftpg-atlas-prework%2Fmain%2FPROMPT.md%20and%20follow%20it%20step%20by%20step.%20It%20reads%20my%20own%20AI%20history%2C%20drafts%20a%20few%20task%20records%20with%20me%2C%20and%20sends%20only%20what%20I%20approve.">Open in the ChatGPT desktop app</a>
       </div>
-      <p class="small">The button opens the app with a short prompt typed in. Press Enter to start. If nothing opens, copy the prompt and paste it into a new ChatGPT or Codex session.</p>
+      <p class="small">Opens the app with a prompt typed in. Press Enter to start. If nothing opens, copy the prompt into a new ChatGPT or Codex session.</p>
       <textarea readonly id="prompt-chatgpt" aria-label="Prompt for ChatGPT or Codex">Run the TPG Atlas pre-work. I'm using Codex in the ChatGPT desktop app. Fetch https://raw.githubusercontent.com/mkhalife/tpg-atlas-prework/main/PROMPT.md and follow it step by step. It reads my own AI history, drafts a few task records with me, and sends only what I approve.</textarea>
       <button class="copy" type="button" data-for="prompt-chatgpt">Copy the prompt</button>
     </section>
@@ -133,6 +133,8 @@
   const panels = document.querySelectorAll('.panel');
   document.querySelectorAll('input[name=tool]').forEach((r) => r.addEventListener('change', () => {
     panels.forEach((p) => { p.hidden = p.id !== 'panel-' + r.value; });
+    const shown = document.getElementById('panel-' + r.value);
+    shown.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
   }));
   document.querySelectorAll('.copy').forEach((b) => b.addEventListener('click', async () => {
     const t = document.getElementById(b.dataset.for);
