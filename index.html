@@ -30,7 +30,6 @@
   .callout h2 { font-size:16px; margin:0; }
   .callout p { font-size:14px; }
   .start h2 { font-size:28px; margin:8px 0 0; letter-spacing:-0.01em; }
-  .go { align-self:flex-start; }
   h3 { font-size:17px; margin:0; }
   .step { color:var(--ink); font-weight:600; }
   .step span { font-weight:400; color:var(--body); }
@@ -47,23 +46,6 @@
 <body><main>
   <h1>TPG Atlas pre-work</h1>
   <p>About 10 minutes. Your AI reads your recent work with it and drafts a few TPG tasks with you, plus the questions each one needed answered. You review them and click Send. It’s anonymous.</p>
-  <a class="btn go" href="#start">Get started ↓</a>
-  <aside class="callout" aria-labelledby="how-title">
-    <h2 id="how-title">What happens with what you send</h2>
-    <p>Atlas is a set of notes on how TPG works, kept current by an AI agent. What you send becomes the test it’s graded on.</p>
-    <p class="step">1. You send a task, the questions it needed, and the answers you know.</p>
-    <dl class="rec">
-      <dt>A task you did</dt><dd>Spec the questions a new sign-up flow asks.</dd>
-      <dt>A question it needed</dt><dd>Which user signals are we prioritizing for personalization?</dd>
-      <dt>The answer, if you know it</dt><dd>Six: cards in wallet, program affinity, content affinity, points knowledge, travel frequency, and business-owner status.</dd>
-    </dl>
-    <p class="step">2. We ask Claude your question with and without Atlas, and score each reply against your answer. <span>(Example replies.)</span></p>
-    <div class="runs">
-      <div class="run"><b>Claude, without Atlas</b><q>Common personalization signals are email engagement, location and browsing history.</q><span class="no">✗ None of the six</span></div>
-      <div class="run"><b>Claude, with Atlas</b><q>TPG prioritizes six: cards in wallet, program affinity, content affinity, points knowledge, travel frequency and business-owner status.</q><span class="ok">✓ Matches your answer</span></div>
-    </div>
-    <p class="step">3. A miss tells the agent what to learn. <span>Every update has to keep passing your question.</span></p>
-  </aside>
   <section class="start" id="start" aria-labelledby="start-title">
     <h2 id="start-title">Get started</h2>
     <h3>Which AI do you use most for work?</h3>
@@ -127,6 +109,22 @@
 
     </section>
   </section>
+  <aside class="callout" aria-labelledby="how-title">
+    <h2 id="how-title">What happens with what you send</h2>
+    <p>Atlas is a set of notes on how TPG works, kept current by an AI agent. What you send becomes the test it’s graded on.</p>
+    <p class="step">1. You send a task, the questions it needed, and the answers you know.</p>
+    <dl class="rec">
+      <dt>A task you did</dt><dd>Spec the questions a new sign-up flow asks.</dd>
+      <dt>A question it needed</dt><dd>Which user signals are we prioritizing for personalization?</dd>
+      <dt>The answer, if you know it</dt><dd>Six: cards in wallet, program affinity, content affinity, points knowledge, travel frequency, and business-owner status.</dd>
+    </dl>
+    <p class="step">2. We ask Claude your question with and without Atlas, and score each reply against your answer. <span>(Example replies.)</span></p>
+    <div class="runs">
+      <div class="run"><b>Claude, without Atlas</b><q>Common personalization signals are email engagement, location and browsing history.</q><span class="no">✗ None of the six</span></div>
+      <div class="run"><b>Claude, with Atlas</b><q>TPG prioritizes six: cards in wallet, program affinity, content affinity, points knowledge, travel frequency and business-owner status.</q><span class="ok">✓ Matches your answer</span></div>
+    </div>
+    <p class="step">3. A miss tells the agent what to learn. <span>Every update has to keep passing your question.</span></p>
+  </aside>
 </main>
 <script>
   const panels = document.querySelectorAll('.panel');
