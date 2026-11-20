@@ -27,43 +27,40 @@
   section { display:flex; flex-direction:column; gap:16px; }
   section + section { padding-top:24px; border-top:1px solid var(--hair); }
   h3 { font-size:17px; margin:0; }
-  .loopfig { display:grid; grid-template-columns:200px 32px 1fr; align-items:center; margin:8px 0 0; }
-  .test { display:flex; flex-direction:column; gap:8px; padding:16px; border:1px solid var(--sky); border-radius:4px; background:var(--sel); font-size:14px; color:var(--body); }
-  .test b { color:var(--ink); font-size:15px; }
-  .test span { padding:6px 8px; border-radius:4px; background:var(--ground); font-size:13px; color:var(--ink); }
-  .into { text-align:center; color:var(--sky); font-size:20px; }
-  .loop { position:relative; list-style:none; margin:0; padding:0 0 0 34px; display:flex; flex-direction:column; gap:22px; counter-reset:step; }
-  .loop::before { content:""; position:absolute; left:8px; top:22px; bottom:22px; width:18px; border:2px solid var(--sky); border-right:0; border-radius:10px 0 0 10px; }
-  .loop::after { content:""; position:absolute; left:20px; top:16px; border:6px solid transparent; border-left:8px solid var(--sky); }
-  .loop li { position:relative; display:flex; flex-direction:column; gap:4px; padding:12px 14px; border:1px solid var(--hair); border-radius:4px; background:var(--surface2); font-size:14px; color:var(--body); counter-increment:step; }
-  .loop li b { color:var(--ink); font-size:15px; }
-  .loop li b::before { content:counter(step) ". "; color:var(--sky); }
-  .loop li:not(:last-child)::after { content:"↓"; position:absolute; left:50%; bottom:-21px; transform:translateX(-50%); color:var(--sky); }
-  .loopnote { grid-column:3; padding:10px 0 0 34px; font-size:14px; }
-  @media (max-width:700px) {
-    .loopfig { grid-template-columns:1fr; }
-    .into { padding:6px 0; }
-    .into span { display:inline-block; transform:rotate(90deg); }
-    .loopnote { grid-column:1; }
-  }
+  .step { color:var(--ink); font-weight:600; }
+  .step span { font-weight:400; color:var(--body); }
+  .rec { margin:0; border:1px solid var(--sky); background:var(--sel); border-radius:4px; padding:14px 16px; display:grid; gap:4px; font-size:14px; }
+  .rec dt { font-size:12px; font-weight:600; color:var(--body); text-transform:uppercase; letter-spacing:.05em; }
+  .rec dd { margin:0 0 6px; color:var(--ink); }
+  .rec dd:last-child { margin:0; }
+  .arrow { text-align:center; color:var(--sky); font-size:20px; line-height:1; }
+  .runs { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .run { border:1px solid var(--hair); border-radius:4px; padding:12px 14px; font-size:14px; display:flex; flex-direction:column; gap:6px; background:var(--surface2); }
+  .run b { font-size:13px; color:var(--ink); }
+  .run q { color:var(--ink); }
+  .ok { color:#0a7a3d; font-weight:600; } .no { color:#b3261e; font-weight:600; }
+  @media (max-width:700px) { .runs { grid-template-columns:1fr; } }
 </style></head>
 <body><main>
   <h1>TPG Atlas pre-work</h1>
   <p>About 10 minutes. Your AI reads your recent work with it and drafts a few TPG tasks with you, plus the questions each one needed answered. You review them and click Send. It’s anonymous.</p>
   <section aria-labelledby="how-title">
     <h2 id="how-title">What happens with what you send</h2>
-    <p>Atlas is a set of notes on how TPG works, kept current by an AI agent. Your questions become the test it has to pass.</p>
-    <figure class="loopfig" aria-label="Your questions become the test. The agent updates Atlas, Atlas takes the test, misses show what to fix, and it repeats.">
-      <div class="test"><b>The test</b>Your questions and their answers.<span>What counts as an active newsletter subscriber?</span><span>Who owns the card catalog?</span></div>
-      <div class="into" aria-hidden="true"><span>→</span></div>
-      <ol class="loop">
-        <li><b>The agent updates Atlas</b>From new docs, Slack and meetings.</li>
-        <li><b>Atlas takes the test</b>Claude answers each question, with and without Atlas.</li>
-        <li><b>The answers are scored</b>Misses show what to fix next.</li>
-      </ol>
-      <p class="loopnote">An update ships only if it scores at least as well as the last one.</p>
-    </figure>
-    <p>A question nothing could answer for you is the most useful one to send.</p>
+    <p>Atlas is a set of notes on how TPG works, kept current by an AI agent. Here’s one question on its way through.</p>
+    <p class="step">1. You send a task, the questions it needed, and the answers you know.</p>
+    <dl class="rec">
+      <dt>A task you did</dt><dd>Spec the questions a new sign-up flow asks.</dd>
+      <dt>A question it needed</dt><dd>Which user signals are we prioritizing for personalization?</dd>
+      <dt>The answer, if you know it</dt><dd>Six: cards in wallet, program affinity, content affinity, points knowledge, travel frequency, and business-owner status.</dd>
+    </dl>
+    <div class="arrow" aria-hidden="true">↓</div>
+    <p class="step">2. We ask Claude your question with and without Atlas, and check each reply against your answer. <span>(Example replies.)</span></p>
+    <div class="runs">
+      <div class="run"><b>Claude, without Atlas</b><q>Common personalization signals are email engagement, location and browsing history.</q><span class="no">✗ None of the six</span></div>
+      <div class="run"><b>Claude, with Atlas</b><q>TPG prioritizes six: cards in wallet, program affinity, content affinity, points knowledge, travel frequency and business-owner status.</q><span class="ok">✓ Matches your answer</span></div>
+    </div>
+    <div class="arrow" aria-hidden="true">↓</div>
+    <p class="step">3. A miss tells the agent what to learn. <span>Your question stays in the test, and every update to Atlas has to keep passing it.</span></p>
   </section>
   <section aria-labelledby="start-title">
     <h2 id="start-title">Get started</h2>
