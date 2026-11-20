@@ -24,10 +24,23 @@
   .small { font-size:14px; }
   textarea { width:100%; box-sizing:border-box; min-height:110px; padding:12px; border:1px solid var(--hair); border-radius:4px; background:var(--surface2); font:13px/1.45 ui-monospace, monospace; }
   .copy { align-self:flex-start; padding:8px 16px; border:1px solid var(--ink); border-radius:9999px; background:transparent; font:inherit; cursor:pointer; }
+  .how { display:flex; flex-direction:column; gap:16px; padding-top:24px; border-top:1px solid var(--hair); }
+  .flow { list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(4, 1fr); gap:28px; counter-reset:step; }
+  .flow li { position:relative; display:flex; flex-direction:column; gap:6px; padding:14px; border:1px solid var(--hair); border-radius:4px; background:var(--surface2); font-size:14px; color:var(--body); counter-increment:step; }
+  .flow li b { color:var(--ink); font-size:15px; }
+  .flow li b::before { content:counter(step) ". "; color:var(--sky); }
+  .flow li:not(:last-child)::after { content:"→"; position:absolute; right:-22px; top:50%; transform:translateY(-50%); color:var(--sky); font-size:18px; }
+  .pair { display:grid; gap:6px; }
+  .pair span { padding:6px 8px; border-radius:4px; background:var(--ground); border:1px solid var(--hair); font-size:13px; color:var(--ink); }
+  .pair span.atlas { border-color:var(--sky); background:var(--sel); }
+  @media (max-width:700px) {
+    .flow { grid-template-columns:1fr; gap:26px; }
+    .flow li:not(:last-child)::after { content:"↓"; right:auto; left:50%; top:auto; bottom:-24px; transform:translateX(-50%); }
+  }
 </style></head>
 <body><main>
   <h1>TPG Atlas pre-work</h1>
-  <p>About 10 minutes. Your AI looks through your own recent work with it, drafts a few real tasks from it with you, including the questions about TPG each one needed answered, and asks you three questions of its own. You review every task and click Send yourself. No name, email, title, or dates are sent, though the tasks themselves may make it clear whose they are.</p>
+  <p>About 10 minutes. Your AI looks through your own recent work with it, drafts a few real tasks from it with you, including the questions about TPG each one needed answered, and asks you three questions of its own. You review every task and click Send yourself. It’s anonymous.</p>
   <h2>Which AI do you use most for work?</h2>
   <fieldset class="choices">
     <legend hidden>Which AI do you use most for work?</legend>
@@ -88,6 +101,17 @@
 
     </section>
   <p class="small">Use more than one? Pick the one you used most for TPG work in the last month and a half.</p>
+  <section class="how" aria-labelledby="how-title">
+    <h2 id="how-title">What happens with what you send</h2>
+    <p>Atlas is a set of notes on how TPG works, kept up to date by an AI agent that reads TPG’s docs, Slack and meetings. Your tasks and the questions behind them become the test Atlas has to pass.</p>
+    <ol class="flow">
+      <li><b>Your questions</b>Each question you send, with the answer you know, becomes a test case.</li>
+      <li><b>Asked twice</b><span class="pair"><span>Claude with TPG’s docs</span><span class="atlas">Claude with Atlas</span></span></li>
+      <li><b>Scored</b>Each reply is checked for the facts in your answer.</li>
+      <li><b>Atlas improves</b>Where it misses, we fix what it reads. Every update has to keep passing before it goes live.</li>
+    </ol>
+    <p>So your questions are how we judge whether Atlas is any good. A question nothing could answer for you is the most useful one to send.</p>
+  </section>
 </main>
 <script>
   const panels = document.querySelectorAll('.panel');
