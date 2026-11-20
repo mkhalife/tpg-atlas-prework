@@ -20,12 +20,12 @@ How to ask me things: whenever you need an answer from me (steps 1, 4 and 6), us
 3. Draft task records. Size each task to one deliverable or one decision: split a long project into the step where TPG context mattered most. Keep up to 10, chosen for variety of work type and for how much TPG context they needed, and list any others you found by title only, so I can pull one in. Each record has these fields:
    - task: one or two sentences describing the work in general terms, as someone else could repeat it. Name TPG products (AskTPG, CardMatch, the homepage) where they matter; name no people.
    - work_type: one of spec, design, research, analysis, deck, ticket, other.
-   - questions: two to four specific questions about TPG that the task needed answered, as someone would ask Atlas. For each: question; answer, in one or two sentences if I know it, else empty, and only facts any TPG employee may see; answer_lives_in, the doc title, Slack channel, dashboard, or team where the answer lives or should live, else empty. Example: {"question":"What counts as an active newsletter subscriber?","answer":"","answer_lives_in":"Data team; newsletter dashboard"}.
+   - questions: two to four specific questions about TPG that the task needed answered, worded the way I would actually type them to an AI. Each is later asked of an AI and the reply scored against the answer, so keep both concrete. For each: question; answer, if I know it: the one to three facts a correct reply must include, specific enough to check (a definition, a number, a rule, a named doc or dashboard), else empty, and only facts any TPG employee may see; answer_lives_in, the doc, Slack channel, dashboard, or role or team that has the answer or should have had it, else empty, never a person's name. Example: {"question":"What counts as an active newsletter subscriber?","answer":"","answer_lives_in":"Data team; newsletter dashboard"}.
    - context_needed: the one or two categories that mattered most, from: Strategy and priorities; OKRs and KRs; Metric definitions and data; User research; Design system and brand; What already exists; Who owns what; Past tests and decisions; How TPG makes money; Compliance and partner rules; Platform and technical limits; Other (say what).
    - context_found: all, some, or none.
    - where_found: any of doc, Slack, a person, a dashboard, my memory, not found.
    - missing: one line on what was missing or hard to find. Empty if nothing.
-   - good_result: three to five short bullets on the TPG facts, constraints, and decisions a good result has to get right. Leave out how I like things written or formatted and how I like to work.
+   - good_result: three to five short bullets on the TPG facts, constraints, and decisions a good result has to get right, each concrete enough that a reviewer could mark it present or missing. Leave out how I like things written or formatted and how I like to work.
    - must_not: optional, one line on what a good result must not get wrong.
    - ai_helped: yes, partly, no, or not used.
    - origin: mined.
@@ -34,7 +34,7 @@ How to ask me things: whenever you need an answer from me (steps 1, 4 and 6), us
    a. A task from the last month where AI did not help, or made it worse. What was it, and what was missing?
    b. A task you did without AI at all. What did it need from TPG?
    c. Something you had to ask a person for because it was not written down anywhere.
-   Fill the same fields from my answers, including two to four questions. Ask a short follow-up only when a field would otherwise be empty. If I share a link (a doc, a Slack thread), you may read it to understand my answer; summarize what it tells you in your own words, and never copy content from a private channel, DM, or restricted doc into a record.
+   Fill the same fields from my answers, including two to four questions. If I have not said which doc, channel, or role should have had an answer, ask that as one short follow-up (optional; a role or channel, not a person). Otherwise ask a follow-up only when a field would otherwise be empty. If I share a link (a doc, a Slack thread), you may read it to understand my answer; summarize what it tells you in your own words, and never copy content from a private channel, DM, or restricted doc into a record.
 
 5. Check every record before showing it to me, and fix anything that fails:
    - No people's names, emails, Slack handles, or anything that identifies a person.
