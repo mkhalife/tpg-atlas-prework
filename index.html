@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TPG Atlas pre-work</title>
+<style>
+  :root { --ground:#ffffff; --ink:#000000; --body:#565756; --hair:#e5e4e4; --surface2:#f7f7f7; --sky:#006dff; }
+  body { margin:0; background:var(--ground); color:var(--ink); font:16px/1.5 system-ui, sans-serif; }
+  main { max-width:720px; margin:0 auto; padding:48px max(16px, env(safe-area-inset-left, 0px)) 64px; display:flex; flex-direction:column; gap:28px; }
+  h1 { font-size:36px; line-height:1.1; margin:0; letter-spacing:-0.01em; }
+  p { margin:0; color:var(--body); }
+  .apps { display:grid; gap:12px; }
+  .app { display:flex; flex-direction:column; gap:4px; padding:16px 20px; border:1px solid var(--ink); border-radius:4px; color:var(--ink); text-decoration:none; }
+  .app:hover, .app:focus-visible { border-color:var(--sky); outline:2px solid var(--sky); outline-offset:-2px; }
+  .app b { font-weight:600; } .app span { color:var(--body); font-size:14px; }
+  textarea { width:100%; box-sizing:border-box; min-height:220px; padding:12px; border:1px solid var(--hair); border-radius:4px; background:var(--surface2); font:13px/1.45 ui-monospace, monospace; }
+  button { align-self:flex-start; padding:10px 18px; border:0; border-radius:9999px; background:var(--ink); color:var(--ground); font:inherit; cursor:pointer; }
+</style></head>
+<body><main>
+  <h1>TPG Atlas pre-work</h1>
+  <p>About 10 minutes. Your AI reads your own recent sessions on your computer, drafts a few real tasks from your work, and asks you three questions. You review every row before anything is sent. It's anonymous: no name, email, title, or dates are sent.</p>
+  <div class="apps">
+    <a class="app" href="claude://code/new?q=Run%20the%20TPG%20Atlas%20pre-work.%20Fetch%20https%3A%2F%2Fraw.githubusercontent.com%2Fmkhalife%2Ftpg-atlas-prework%2Fmain%2FPROMPT.md%20and%20follow%20it%20step%20by%20step.%20It%20reads%20my%20own%20AI%20sessions%20on%20this%20computer%2C%20drafts%20a%20few%20task%20records%20with%20me%2C%20and%20sends%20only%20what%20I%20approve."><b>Open in Claude Desktop, Code tab</b><span>Reads Claude Code and Cowork sessions on this computer</span></a>
+    <a class="app" href="claude-cli://open?q=Run%20the%20TPG%20Atlas%20pre-work.%20Fetch%20https%3A%2F%2Fraw.githubusercontent.com%2Fmkhalife%2Ftpg-atlas-prework%2Fmain%2FPROMPT.md%20and%20follow%20it%20step%20by%20step.%20It%20reads%20my%20own%20AI%20sessions%20on%20this%20computer%2C%20drafts%20a%20few%20task%20records%20with%20me%2C%20and%20sends%20only%20what%20I%20approve."><b>Open in Claude Code in a terminal</b><span>Reads Claude Code and Cowork sessions on this computer</span></a>
+    <a class="app" href="https://claude.ai/code?q=Run%20the%20TPG%20Atlas%20pre-work.%20Fetch%20https%3A%2F%2Fraw.githubusercontent.com%2Fmkhalife%2Ftpg-atlas-prework%2Fmain%2FPROMPT.md%20and%20follow%20it%20step%20by%20step.%20It%20reads%20my%20own%20AI%20sessions%20on%20this%20computer%2C%20drafts%20a%20few%20task%20records%20with%20me%2C%20and%20sends%20only%20what%20I%20approve."><b>Open in Claude Code on the web</b><span>Reads your claude.ai/code cloud sessions</span></a>
+    <a class="app" href="codex://threads/new?prompt=Run%20the%20TPG%20Atlas%20pre-work.%20Fetch%20https%3A%2F%2Fraw.githubusercontent.com%2Fmkhalife%2Ftpg-atlas-prework%2Fmain%2FPROMPT.md%20and%20follow%20it%20step%20by%20step.%20It%20reads%20my%20own%20AI%20sessions%20on%20this%20computer%2C%20drafts%20a%20few%20task%20records%20with%20me%2C%20and%20sends%20only%20what%20I%20approve."><b>Open in ChatGPT desktop app (Codex)</b><span>Reads Codex sessions on this computer</span></a>
+    <a class="app" href="https://docs.google.com/forms/d/e/1FAIpQLSfs6SsFqalXUld2bTiuxVdE8XPv4hoOpuArCydnvkyQEKwlhw/viewform"><b>No AI history, or rather type</b><span>A short form, one task at a time</span></a>
+  </div>
+  <p>If a button doesn't open the app, copy the prompt and paste it into a new session.</p>
+  <textarea id="prompt" readonly>Run the TPG Atlas pre-work. Fetch https://raw.githubusercontent.com/mkhalife/tpg-atlas-prework/main/PROMPT.md and follow it step by step. It reads my own AI sessions on this computer, drafts a few task records with me, and sends only what I approve.</textarea>
+  <button id="copy" type="button">Copy the prompt</button>
+</main>
+<script>
+  document.getElementById('copy').addEventListener('click', async (e) => {
+    const t = document.getElementById('prompt');
+    try { await navigator.clipboard.writeText(t.value); e.target.textContent = 'Copied'; }
+    catch { t.select(); e.target.textContent = 'Press Cmd+C to copy'; }
+  });
+</script>
+</body></html>
