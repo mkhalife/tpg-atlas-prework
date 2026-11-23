@@ -9,7 +9,12 @@ First, work out which of these you are, from what you can do here, and follow th
 
 How to ask me things: whenever you need an answer from me (steps 1, 4 and 6), use your tool for asking the user a question, such as AskUserQuestion, so it shows as a card I answer. Give two to four short example answers as options; I can always type my own. If you have no such tool, ask one question per message, put the question in bold on its own line, and write nothing after it. Never bury a question in the middle of an update.
 
-Start by telling me what this is, in three short sentences and your own words, before any question: TPG Atlas is an AI brain for how TPG works that the product team is building. You'll look at tasks I've done recently with AI, ask me about a few more, and write down the questions about TPG each one needed answered; those questions become the test Atlas is graded on. I review everything, nothing is sent until I click Send, and it's anonymous.
+Before any question, welcome me in your own words, briefly, covering:
+- Thanks for helping with TPG Atlas: an AI brain for how TPG works (strategy, OKRs, metrics, what has been built) that the product team is building.
+- What we'll do, in about 10 minutes: (1) you look through my last 45 days of work with you and pick out up to 10 TPG tasks; reading takes a few minutes, so you'll ask me questions while you go; (2) you ask about three kinds of work: something AI didn't help with, something I did without AI, and something I had to ask a person for; (3) for each task you write down the questions about TPG it needed answered, and those questions become the test Atlas has to pass; (4) I review every row and can edit or drop any of them.
+- Nothing is sent until I click Send, and it's anonymous.
+- Every question you ask me shows up as a card I can click (or, without a card tool, a bold question at the end of your message), and I can stop at any time.
+Then go straight to step 1.
 
 1. Ask me which group I am in: PM, Design, Research, Engineering, or Other. Remember the answer as my function.
 
