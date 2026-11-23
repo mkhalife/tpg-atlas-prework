@@ -1,0 +1,81 @@
+/* Page rules for the pre-work page. Every value reads a Waypoint variable from web.css;
+   type comes from the wp-type-* classes. 1px borders follow the mirrored Card. */
+body { margin: 0; background: var(--surface); color: var(--content-body-primary); font-family: var(--font-body); }
+[hidden] { display: none !important; }
+a { color: var(--content-standalone-link); }
+a.wp-button, a.wp-link { text-decoration: none; }
+.muted { color: var(--content-body-secondary); }
+.heading { color: var(--content-heading); margin: 0; }
+.eyebrow { color: var(--content-eyebrow); margin: 0; }
+p, h1, h2, h3, ul, ol, dl { margin: 0; }
+.list { padding-left: var(--spacing-5); display: flex; flex-direction: column; gap: var(--spacing-gap-xs); }
+.list li::marker { color: var(--content-body-secondary); }
+.logo { display: block; }
+
+/* Layout spans on the Waypoint grid: full width on mobile, narrower columns from 800px. */
+.span-all, .span-read, .span-main, .span-side { grid-column: 1 / -1; }
+@media (min-width: 800px) {
+  .span-read { grid-column: 1 / span 6; }
+  .span-main { grid-column: 1 / span 5; }
+  .span-side { grid-column: 6 / span 3; }
+}
+@media (min-width: 1280px) {
+  .span-read { grid-column: 1 / span 8; }
+  .span-main { grid-column: 1 / span 7; }
+  .span-side { grid-column: 9 / span 4; }
+  .sticky { position: sticky; top: var(--spacing-8); }
+}
+.cards { display: grid; grid-template-columns: 1fr; gap: var(--spacing-gap-lg); }
+@media (min-width: 800px) { .cards { grid-template-columns: repeat(3, 1fr); } }
+
+/* Choice cards for "Which AI": built from selector-* tokens around the mirrored radio. */
+.choices { display: flex; flex-direction: column; gap: var(--spacing-gap-sm); border: 0; padding: 0; margin: 0; }
+.choice { display: flex; align-items: center; gap: var(--spacing-gap-md); padding: var(--spacing-padding-md); border: 1px solid var(--selector-border); border-radius: var(--radius-control-md); background: var(--selector-fill); color: var(--selector-content); cursor: pointer; }
+.choice:hover { border-color: var(--selector-border-hover); background: var(--selector-fill-hover); }
+.choice:has(input:checked) { border-color: var(--selector-border-selected); background: var(--selector-fill-selected); color: var(--selector-content-selected); }
+.choice:has(input:focus-visible) { border-color: var(--selector-border-focused); }
+.choice__text { display: flex; flex-direction: column; gap: var(--spacing-gap-xs); }
+.choice__hint { color: var(--selector-content-secondary); }
+
+/* The launch prompt box: input-* tokens. */
+textarea { box-sizing: border-box; width: 100%; padding: var(--spacing-padding-sm); border: 1px solid var(--input-border); border-radius: var(--radius-control-md); background: var(--input-fill); color: var(--input-content); resize: vertical; }
+textarea:hover { border-color: var(--input-border-hover); }
+textarea:focus { outline: none; border-color: var(--input-border-focused); }
+
+/* Steps (variant B): number and heading share a centred row; a rail joins the numbers. */
+.hero__body { padding-block: var(--spacing-8) var(--spacing-12); }
+.facts { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: var(--spacing-gap-sm) var(--spacing-gap-lg); }
+.facts li { display: inline-flex; align-items: center; gap: var(--spacing-gap-xs); }
+.steps-wrap { padding-block: var(--spacing-12); }
+.steps { list-style: none; padding: 0; display: flex; flex-direction: column; }
+.step { position: relative; display: grid; grid-template-columns: var(--sizing-control-md) 1fr; column-gap: var(--spacing-gap-lg); row-gap: var(--spacing-gap-md); align-items: center; padding-bottom: var(--spacing-12); }
+.step--last { padding-bottom: 0; }
+.step__num { display: flex; align-items: center; justify-content: center; width: var(--sizing-control-md); height: var(--sizing-control-md); border-radius: var(--radius-full); background: var(--cta-primary-fill); color: var(--cta-primary-content); }
+.step__body { grid-column: 2; }
+.step:not(.step--last)::before { content: ""; position: absolute; left: calc(var(--sizing-control-md) / 2); top: var(--sizing-control-md); bottom: 0; border-left: 1px solid var(--border-secondary); }
+@media (max-width: 799px) {
+  .step__body { grid-column: 1 / -1; }
+  .step:not(.step--last)::before { display: none; }
+  .step { padding-bottom: var(--spacing-10); }
+}
+.explain { padding-block: var(--spacing-12) var(--spacing-8); }
+.start { padding-block: var(--spacing-8) var(--spacing-12); }
+.faq-wrap { border-top: 1px solid var(--border-secondary); }
+
+/* Glance rows (variant C). */
+.glance { display: grid; grid-template-columns: max-content 1fr; gap: var(--spacing-gap-md) var(--spacing-gap-lg); }
+.glance dt { color: var(--content-body-secondary); }
+
+/* The worked example. */
+.record { display: grid; grid-template-columns: 1fr; gap: var(--spacing-gap-xs) var(--spacing-gap-lg); align-items: baseline; }
+.record dd + dt { margin-top: var(--spacing-gap-sm); }
+.record dt { color: var(--content-heading); }
+@media (min-width: 800px) { .record { grid-template-columns: max-content 1fr; row-gap: var(--spacing-gap-md); } .record dd + dt { margin-top: 0; } }
+.runs { display: grid; grid-template-columns: 1fr; gap: var(--spacing-gap-md); }
+@media (min-width: 800px) { .runs { grid-template-columns: 1fr 1fr; } }
+.verdict { display: inline-flex; align-items: center; gap: var(--spacing-gap-xs); }
+.verdict--miss { color: var(--status-error-content-bold); }
+.verdict--hit { color: var(--status-success-content-bold); }
+.quote { color: var(--content-body-primary); }
+
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }

@@ -1,138 +1,127 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>TPG Atlas pre-work</title>
-<style>
-  /* Waypoint tokens: surface, content/heading, body-secondary, surface/border-secondary, surface-secondary, sky-500, selector/fill-selected. */
-  :root { --ground:#ffffff; --ink:#000000; --body:#565756; --hair:#e5e4e4; --surface2:#f7f7f7; --sky:#006dff; --sel:#eaf6fd; }
-  [hidden] { display:none !important; }
-  body { margin:0; background:var(--ground); color:var(--ink); font:16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
-  main { max-width:720px; margin:0 auto; padding:48px max(16px, env(safe-area-inset-left, 0px)) 64px max(16px, env(safe-area-inset-right, 0px)); display:flex; flex-direction:column; gap:24px; }
-  h1 { font-size:36px; line-height:1.1; margin:0; letter-spacing:-0.01em; }
-  h2 { font-size:20px; margin:8px 0 0; }
-  p { margin:0; color:var(--body); }
-  .choices { display:grid; gap:10px; border:0; padding:0; margin:0; }
-  .choice { display:flex; flex-direction:column; gap:2px; padding:14px 18px; border:1px solid var(--hair); border-radius:4px; cursor:pointer; }
-  .choice input { position:absolute; opacity:0; pointer-events:none; }
-  .choice b { font-weight:600; } .choice span { color:var(--body); font-size:14px; }
-  .choice:has(input:checked) { border-color:var(--sky); background:var(--sel); box-shadow:0 0 0 1px var(--sky); }
-  .choice:has(input:focus-visible) { outline:3px solid var(--sky); outline-offset:2px; }
-  .panel { display:flex; flex-direction:column; gap:14px; padding:20px; border:1px solid var(--ink); border-radius:4px; }
-  .buttons { display:flex; flex-wrap:wrap; gap:10px; }
-  .btn { display:inline-flex; align-items:center; padding:12px 20px; border-radius:9999px; background:var(--ink); color:var(--ground); text-decoration:none; font-weight:600; }
-  .btn.alt { background:transparent; color:var(--ink); box-shadow:inset 0 0 0 1px var(--ink); }
-  .btn:focus-visible, .copy:focus-visible { outline:3px solid var(--sky); outline-offset:2px; }
-  .small { font-size:14px; }
-  textarea { width:100%; box-sizing:border-box; min-height:110px; padding:12px; border:1px solid var(--hair); border-radius:4px; background:var(--surface2); font:13px/1.45 ui-monospace, monospace; }
-  .copy { align-self:flex-start; padding:8px 16px; border:1px solid var(--ink); border-radius:9999px; background:transparent; font:inherit; cursor:pointer; }
-  section { display:flex; flex-direction:column; gap:16px; }
-  html { scroll-behavior:smooth; } @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } }
-  .callout { display:flex; flex-direction:column; gap:12px; padding:20px; border-radius:8px; background:var(--surface2); font-size:14px; }
-  .callout h2 { font-size:16px; margin:0; }
-  .callout p { font-size:14px; }
-  .start h2 { font-size:28px; margin:8px 0 0; letter-spacing:-0.01em; }
-  h3 { font-size:17px; margin:0; }
-  .step { color:var(--ink); font-weight:600; }
-  .step span { font-weight:400; color:var(--body); }
-  .rec { margin:0; border:1px solid var(--sky); background:var(--sel); border-radius:4px; padding:10px 14px; display:grid; grid-template-columns:max-content 1fr; gap:4px 12px; font-size:14px; }
-  .rec dt { font-size:12px; font-weight:600; color:var(--body); text-transform:uppercase; letter-spacing:.05em; padding-top:2px; }
-  .rec dd { margin:0; color:var(--ink); }
-  .runs { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-  .run { border:1px solid var(--hair); border-radius:4px; padding:10px 12px; font-size:14px; display:flex; flex-direction:column; gap:6px; background:var(--ground); }
-  .run b { font-size:13px; color:var(--ink); }
-  .run q { color:var(--ink); }
-  .ok { color:#0a7a3d; font-weight:600; } .no { color:#b3261e; font-weight:600; }
-  @media (max-width:700px) { .runs, .rec { grid-template-columns:1fr; } .rec dd { margin-bottom:6px; } }
-</style></head>
-<body><main>
-  <h1>TPG Atlas pre-work</h1>
-  <p>TPG Atlas is an AI brain for how TPG works, built by the product team. This pre-work helps build and test it: your AI looks at tasks you’ve done recently, asks you about a few more, and writes down the questions about TPG each one needed answered. Those questions become the test Atlas is graded on.</p>
-  <p>About 10 minutes. You review everything and click Send. It’s anonymous.</p>
-  <section class="start" id="start" aria-labelledby="start-title">
-    <h2 id="start-title">Get started</h2>
-    <h3>Which AI do you use most for work?</h3>
-    <p class="small">Use more than one? Pick the one you used most. At the end, the send page asks you to sign in with your Red Ventures Google account. If Google mentions an administrator account, pick your account anyway.</p>
-    <fieldset class="choices">
-      <legend hidden>Which AI do you use most for work?</legend>
-      <label class="choice"><input type="radio" name="tool" value="claude-code"><b>Claude Code</b><span>In a terminal, or the Code tab in Claude Desktop</span></label>
-      <label class="choice"><input type="radio" name="tool" value="claude"><b>Claude</b><span>The Claude app or claude.ai</span></label>
-      <label class="choice"><input type="radio" name="tool" value="claude-web"><b>Claude Code on the web</b><span>claude.ai/code</span></label>
-      <label class="choice"><input type="radio" name="tool" value="chatgpt"><b>ChatGPT or Codex</b><span>The ChatGPT desktop app</span></label>
-      <label class="choice"><input type="radio" name="tool" value="none"><b>I don’t use AI much for work</b><span>Or you’d rather type</span></label>
-    </fieldset>
+<link rel="stylesheet" href="waypoint/web.css"><link rel="stylesheet" href="waypoint/bundle.css"><link rel="stylesheet" href="page.css">
+</head><body>
+<div data-theme="expertise" class="hero">
+  <header class="wp-container"><div class="wp-section wp-section--dense"><svg width="164" height="24" class="logo" role="img" aria-label="The Points Guy" viewBox="0 0 274 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M5.84238 6.01401H0V0.555756H17.5272V6.01401H11.6848V32.1127H5.84238V6.01401Z" fill="white"/>
+<path d="M19.488 0.555756H25.1585V10.2796C26.9072 8.19073 29.5083 7.72246 31.2569 7.72246C36.7152 7.72246 40.4687 11.6442 40.4687 18.2987V32.1163H34.7982V19.5792C34.7982 14.2929 32.2813 13.0966 30.0643 13.0966C25.4585 13.0966 25.1621 17.4903 25.1621 19.5792V32.1163H19.4917V0.555756H19.488Z" fill="white"/>
+<path d="M48.5244 22.8134C49.2487 25.7145 51.6815 27.5034 54.707 27.5034C56.5398 27.5034 58.5885 26.9912 59.9933 25.2864H66.3881C63.2309 32.7934 56.0276 32.8775 54.9192 32.8775C46.4318 32.8775 42.4259 25.8828 42.4259 20.4684C42.4259 15.054 46.4757 7.71906 55.007 7.71906C62.2139 7.71906 67.16 13.2615 67.16 20.3001C67.16 21.1525 67.16 21.9647 67.032 22.8171H48.5244V22.8134ZM61.2335 17.7832C60.425 14.798 57.908 13.0932 55.007 13.0932C51.8937 13.0932 49.3768 14.9699 48.4402 17.7832H61.2335Z" fill="white"/>
+<path d="M74.9083 0.555756H83.7359C93.8403 0.555756 95.0366 7.42248 95.0366 10.4077C95.0366 14.3733 92.9037 20.1718 83.7359 20.1718H80.7507V32.1127H74.9083V0.555756ZM80.7507 14.7099H83.9481C85.5688 14.7099 89.1942 14.4099 89.1942 10.3601C89.1942 6.31034 85.5688 6.01035 83.9481 6.01035H80.7507V14.7099Z" fill="white"/>
+<path d="M119.767 20.3404C119.767 27.2071 114.437 32.8775 107.23 32.8775C100.023 32.8775 94.6927 27.2071 94.6927 20.3404C94.6927 13.4736 99.9791 7.71906 107.23 7.71906C114.481 7.71906 119.767 13.4334 119.767 20.3404ZM100.367 20.3404C100.367 24.178 103.052 27.5034 107.234 27.5034C111.415 27.5034 114.1 24.178 114.1 20.3404C114.1 16.5027 111.455 13.0895 107.234 13.0895C103.012 13.0895 100.367 16.4991 100.367 20.3404Z" fill="white"/>
+<path d="M121.9 8.487H127.57V32.1126H121.9V8.487Z" fill="white"/>
+<path d="M130.899 8.48731H136.102V10.6604H136.186C136.954 9.67993 138.831 7.71906 142.668 7.71906C148.127 7.71906 151.88 11.6408 151.88 18.2953V32.1129H146.21V19.5758C146.21 14.2894 143.693 13.0932 141.476 13.0932C136.87 13.0932 136.574 17.4868 136.574 19.5758V32.1129H130.903V8.48731H130.899Z" fill="white"/>
+<path d="M155.97 13.5173H153.197V8.48706H155.97V0.555756H161.64V8.48706H165.05V13.5173H161.64V32.109H155.97V13.5173Z" fill="white"/>
+<path d="M170.552 24.6898C170.636 26.4385 171.961 27.5031 173.666 27.5031C175.158 27.5031 176.311 26.6507 176.311 25.0739C176.311 23.6655 175.374 23.1131 174.178 22.6448C173.369 22.3046 172.557 22.0924 171.749 21.8363C169.447 21.1119 165.734 19.6193 165.734 15.0135C165.734 11.7722 168.251 7.72238 173.709 7.72238C177.975 7.72238 181.172 10.6637 181.341 14.9732H175.67C175.586 14.0367 174.99 13.0965 173.537 13.0965C172.001 13.0965 171.405 14.0769 171.405 15.1013C171.405 16.978 173.666 17.4024 175.03 17.7463C177.931 18.4304 181.981 19.7071 181.981 24.741C181.981 29.303 178.612 32.8845 173.453 32.8845C167.951 32.8845 164.926 28.9189 164.882 24.6971H170.552V24.6898Z" fill="white"/>
+<path d="M223.163 16.0345C223.035 23.5378 218.389 32.8776 206.488 32.8776C194.588 32.8776 189.645 24.1378 189.645 16.5467C189.645 8.95564 195.359 0 206.404 0C213.655 0 219.325 3.66567 221.67 9.85193H214.719C212.29 5.84238 208.025 5.45826 206.404 5.45826C199.025 5.45826 195.488 11.3848 195.488 16.3309C195.488 21.833 199.281 27.4193 206.66 27.4193C210.542 27.4193 214.291 25.4585 215.956 21.5367H202.694V16.0345H223.163Z" fill="white"/>
+<path d="M245.973 32.109H240.771V29.9359H240.686C238.641 32.4931 235.997 32.8772 234.548 32.8772C225.636 32.8772 224.996 24.9898 224.996 21.2802V8.487H230.666V20.512C230.666 23.157 230.922 27.5068 235.484 27.5068C240.046 27.5068 240.302 23.157 240.302 20.512V8.487H245.973V32.1126V32.109Z" fill="white"/>
+<path d="M270.791 8.487L257.23 40H251.131L255.481 29.8957L246.825 8.49066H253.264L258.678 23.6289L264.349 8.49066H270.787L270.791 8.487Z" fill="white"/>
+<path d="M269.876 32.878C272.009 32.878 273.703 31.2317 273.703 29.0989C273.703 26.9661 272.005 25.3198 269.876 25.3198C267.747 25.3198 266.145 27.0173 266.145 29.0989C266.145 31.1805 267.743 32.878 269.876 32.878Z" fill="white"/>
+</svg>
+</div></header>
+  <section class="wp-container"><div class="hero__body wp-grid"><div class="span-read wp-stack wp-stack--24">
+    <h1 class="heading wp-type-display-sm">Teach Atlas how TPG works</h1>
+    <p class="wp-type-body-lg">Atlas is an AI brain for how TPG works, built by the product team. Ten minutes of your real work is how we’ll know if it’s any good.</p>
+    <ul class="facts wp-type-body-md"><li><span class="wp-icon wp-icon--check-circle" aria-hidden="true"></span>About 10 minutes</li><li><span class="wp-icon wp-icon--check-circle" aria-hidden="true"></span>You approve every row</li><li><span class="wp-icon wp-icon--check-circle" aria-hidden="true"></span>Anonymous</li></ul>
+  </div></div></section>
+</div>
+<main>
+  <section class="wp-container"><div class="explain"><div class="cards">
+    <div class="wp-card"><div class="wp-card__header"><h2 class="wp-card__title"><span class="wp-type-subheading-sm">What Atlas is</span></h2></div>
+      <ul class="list wp-type-body-md"><li>An AI that knows TPG: strategy, OKRs, metric definitions, research, what’s been built</li><li>Kept up to date from docs, Slack and meetings</li><li>Plugged into the AI tools you already use</li></ul></div>
+    <div class="wp-card"><div class="wp-card__header"><h2 class="wp-card__title"><span class="wp-type-subheading-sm">What you’ll do</span></h2></div>
+      <ol class="list wp-type-body-md"><li>Open your AI with one click</li><li>It drafts a few recent TPG tasks from your work with it</li><li>Answer three quick questions</li><li>Review the rows and click Send</li></ol></div>
+    <div class="wp-card"><div class="wp-card__header"><h2 class="wp-card__title"><span class="wp-type-subheading-sm">What happens next</span></h2></div>
+      <ul class="list wp-type-body-md"><li>Each question you send becomes a test case</li><li>Atlas has to answer it correctly to pass</li><li>Every update has to keep passing</li></ul>
+      <div class="wp-card__footer"><a class="wp-link wp-link--sm" href="#example">See an example <span class="wp-icon wp-icon--arrow-right wp-icon--xs" aria-hidden="true"></span></a></div></div>
+  </div></div></section>
+  <section class="wp-container" id="start"><div class="start wp-grid"><div class="span-read wp-stack wp-stack--24">
+    <h2 class="heading wp-type-heading-md">Get started</h2>
+    <div class="wp-stack wp-stack--16">
+      <p class="muted wp-type-body-md">Pick the AI you use most for work. Use more than one? Pick the one you used most.</p>
+      <fieldset class="choices">
+        <legend hidden>Which AI do you use most for work?</legend>
+        <label class="choice"><span class="wp-check"><input type="radio" class="wp-radio" name="tool" value="claude-code" autocomplete="off"></span><span class="choice__text"><span class="wp-type-ui-title-sm">Claude Code</span><span class="choice__hint wp-type-body-sm">In a terminal, or the Code tab in Claude Desktop</span></span></label>
+        <label class="choice"><span class="wp-check"><input type="radio" class="wp-radio" name="tool" value="claude" autocomplete="off"></span><span class="choice__text"><span class="wp-type-ui-title-sm">Claude</span><span class="choice__hint wp-type-body-sm">The Claude app or claude.ai</span></span></label>
+        <label class="choice"><span class="wp-check"><input type="radio" class="wp-radio" name="tool" value="claude-web" autocomplete="off"></span><span class="choice__text"><span class="wp-type-ui-title-sm">Claude Code on the web</span><span class="choice__hint wp-type-body-sm">claude.ai/code</span></span></label>
+        <label class="choice"><span class="wp-check"><input type="radio" class="wp-radio" name="tool" value="chatgpt" autocomplete="off"></span><span class="choice__text"><span class="wp-type-ui-title-sm">ChatGPT or Codex</span><span class="choice__hint wp-type-body-sm">The ChatGPT desktop app</span></span></label>
+        <label class="choice"><span class="wp-check"><input type="radio" class="wp-radio" name="tool" value="none" autocomplete="off"></span><span class="choice__text"><span class="wp-type-ui-title-sm">I don’t use AI much for work</span><span class="choice__hint wp-type-body-sm">Or you’d rather type</span></span></label>
+      </fieldset>
 
-    <section class="panel" id="panel-claude-code" hidden>
-      <p>Your Claude Code and Cowork sessions on this computer.</p>
-      <div class="buttons">
-        <a class="btn" href="claude://code/new?q=Run%20the%20TPG%20Atlas%20pre-work.%20I'm%20using%20Claude%20Code%20on%20my%20computer.%20Fetch%20https%3A%2F%2Fraw.githubusercontent.com%2Fmkhalife%2Ftpg-atlas-prework%2Fmain%2FPROMPT.md%20and%20follow%20it%20step%20by%20step.%20It%20reads%20my%20own%20AI%20history%2C%20drafts%20a%20few%20task%20records%20with%20me%2C%20and%20sends%20only%20what%20I%20approve.">Open in Claude Desktop (Code tab)</a>
-        <a class="btn alt" href="claude-cli://open?q=Run%20the%20TPG%20Atlas%20pre-work.%20I'm%20using%20Claude%20Code%20on%20my%20computer.%20Fetch%20https%3A%2F%2Fraw.githubusercontent.com%2Fmkhalife%2Ftpg-atlas-prework%2Fmain%2FPROMPT.md%20and%20follow%20it%20step%20by%20step.%20It%20reads%20my%20own%20AI%20history%2C%20drafts%20a%20few%20task%20records%20with%20me%2C%20and%20sends%20only%20what%20I%20approve.">Open Claude Code in a terminal</a>
-      </div>
-      <p class="small">Opens the app with a prompt typed in. Press Enter to start. If nothing opens, copy the prompt into a new Claude Code session.</p>
-      <textarea readonly id="prompt-claude-code" aria-label="Prompt for Claude Code">Run the TPG Atlas pre-work. I'm using Claude Code on my computer. Fetch https://raw.githubusercontent.com/mkhalife/tpg-atlas-prework/main/PROMPT.md and follow it step by step. It reads my own AI history, drafts a few task records with me, and sends only what I approve.</textarea>
-      <button class="copy" type="button" data-for="prompt-claude-code">Copy the prompt</button>
-    </section>
+        <div class="wp-card panel" id="panel-claude-code" hidden>
+          <p class="wp-type-body-md">Your Claude Code and Cowork sessions on this computer.</p>
+          <div class="wp-cluster"><a class="wp-button wp-button--lg" href="claude://code/new?q=Run%20the%20TPG%20Atlas%20pre-work.%20I'm%20using%20Claude%20Code%20on%20my%20computer.%20Fetch%20https%3A%2F%2Fraw.githubusercontent.com%2Fmkhalife%2Ftpg-atlas-prework%2Fmain%2FPROMPT.md%20and%20follow%20it%20step%20by%20step.%20It%20reads%20my%20own%20AI%20history%2C%20drafts%20a%20few%20task%20records%20with%20me%2C%20and%20sends%20only%20what%20I%20approve.">Open in Claude Desktop (Code tab)</a><a class="wp-button wp-button--lg wp-button--secondary" href="claude-cli://open?q=Run%20the%20TPG%20Atlas%20pre-work.%20I'm%20using%20Claude%20Code%20on%20my%20computer.%20Fetch%20https%3A%2F%2Fraw.githubusercontent.com%2Fmkhalife%2Ftpg-atlas-prework%2Fmain%2FPROMPT.md%20and%20follow%20it%20step%20by%20step.%20It%20reads%20my%20own%20AI%20history%2C%20drafts%20a%20few%20task%20records%20with%20me%2C%20and%20sends%20only%20what%20I%20approve.">Open Claude Code in a terminal</a></div>
+          <p class="muted wp-type-body-sm">The button opens the app with a short prompt typed in. Press Enter to start. If nothing opens, copy the prompt into a new Claude Code session.</p>
+          <textarea class="wp-type-body-sm" rows="4" readonly id="prompt-claude-code" aria-label="Prompt for Claude Code">Run the TPG Atlas pre-work. I'm using Claude Code on my computer. Fetch https://raw.githubusercontent.com/mkhalife/tpg-atlas-prework/main/PROMPT.md and follow it step by step. It reads my own AI history, drafts a few task records with me, and sends only what I approve.</textarea>
+          <div><button class="wp-button wp-button--secondary wp-button--sm copy" type="button" data-for="prompt-claude-code">Copy the prompt</button></div>
+        </div>
 
-    <section class="panel" id="panel-claude" hidden>
-      <p>Your Claude chats, through Claude’s chat history. At the end you paste one block into the send page.</p>
-      <div class="buttons">
-        <a class="btn" href="claude://claude.ai/new?q=Run%20the%20TPG%20Atlas%20pre-work.%20I'm%20using%20Claude%20in%20a%20chat.%20Fetch%20https%3A%2F%2Fraw.githubusercontent.com%2Fmkhalife%2Ftpg-atlas-prework%2Fmain%2FPROMPT.md%20and%20follow%20it%20step%20by%20step.%20It%20reads%20my%20own%20AI%20history%2C%20drafts%20a%20few%20task%20records%20with%20me%2C%20and%20sends%20only%20what%20I%20approve.">Open in the Claude app</a>
-        <a class="btn alt" href="https://claude.ai/new?q=Run%20the%20TPG%20Atlas%20pre-work.%20I'm%20using%20Claude%20in%20a%20chat.%20Fetch%20https%3A%2F%2Fraw.githubusercontent.com%2Fmkhalife%2Ftpg-atlas-prework%2Fmain%2FPROMPT.md%20and%20follow%20it%20step%20by%20step.%20It%20reads%20my%20own%20AI%20history%2C%20drafts%20a%20few%20task%20records%20with%20me%2C%20and%20sends%20only%20what%20I%20approve.">Open claude.ai in your browser</a>
-      </div>
-      <p class="small">Opens the app with a prompt typed in. Press Enter to start. If nothing opens, copy the prompt into a new Claude session.</p>
-      <textarea readonly id="prompt-claude" aria-label="Prompt for Claude">Run the TPG Atlas pre-work. I'm using Claude in a chat. Fetch https://raw.githubusercontent.com/mkhalife/tpg-atlas-prework/main/PROMPT.md and follow it step by step. It reads my own AI history, drafts a few task records with me, and sends only what I approve.</textarea>
-      <button class="copy" type="button" data-for="prompt-claude">Copy the prompt</button>
-    </section>
+        <div class="wp-card panel" id="panel-claude" hidden>
+          <p class="wp-type-body-md">Your Claude chats, through Claude’s chat history. At the end you paste one block into the send page.</p>
+          <div class="wp-cluster"><a class="wp-button wp-button--lg" href="claude://claude.ai/new?q=Run%20the%20TPG%20Atlas%20pre-work.%20I'm%20using%20Claude%20in%20a%20chat.%20Fetch%20https%3A%2F%2Fraw.githubusercontent.com%2Fmkhalife%2Ftpg-atlas-prework%2Fmain%2FPROMPT.md%20and%20follow%20it%20step%20by%20step.%20It%20reads%20my%20own%20AI%20history%2C%20drafts%20a%20few%20task%20records%20with%20me%2C%20and%20sends%20only%20what%20I%20approve.">Open in the Claude app</a><a class="wp-button wp-button--lg wp-button--secondary" href="https://claude.ai/new?q=Run%20the%20TPG%20Atlas%20pre-work.%20I'm%20using%20Claude%20in%20a%20chat.%20Fetch%20https%3A%2F%2Fraw.githubusercontent.com%2Fmkhalife%2Ftpg-atlas-prework%2Fmain%2FPROMPT.md%20and%20follow%20it%20step%20by%20step.%20It%20reads%20my%20own%20AI%20history%2C%20drafts%20a%20few%20task%20records%20with%20me%2C%20and%20sends%20only%20what%20I%20approve.">Open claude.ai in your browser</a></div>
+          <p class="muted wp-type-body-sm">The button opens the app with a short prompt typed in. Press Enter to start. If nothing opens, copy the prompt into a new Claude session.</p>
+          <textarea class="wp-type-body-sm" rows="4" readonly id="prompt-claude" aria-label="Prompt for Claude">Run the TPG Atlas pre-work. I'm using Claude in a chat. Fetch https://raw.githubusercontent.com/mkhalife/tpg-atlas-prework/main/PROMPT.md and follow it step by step. It reads my own AI history, drafts a few task records with me, and sends only what I approve.</textarea>
+          <div><button class="wp-button wp-button--secondary wp-button--sm copy" type="button" data-for="prompt-claude">Copy the prompt</button></div>
+        </div>
 
-    <section class="panel" id="panel-claude-web" hidden>
-      <p>Your claude.ai/code cloud sessions.</p>
-      <div class="buttons">
-        <a class="btn" href="https://claude.ai/code?q=Run%20the%20TPG%20Atlas%20pre-work.%20I'm%20using%20Claude%20Code%20on%20the%20web.%20Fetch%20https%3A%2F%2Fraw.githubusercontent.com%2Fmkhalife%2Ftpg-atlas-prework%2Fmain%2FPROMPT.md%20and%20follow%20it%20step%20by%20step.%20It%20reads%20my%20own%20AI%20history%2C%20drafts%20a%20few%20task%20records%20with%20me%2C%20and%20sends%20only%20what%20I%20approve.">Open claude.ai/code</a>
-      </div>
-      <p class="small">Opens the app with a prompt typed in. Press Enter to start. If nothing opens, copy the prompt into a new Claude Code on the web session.</p>
-      <textarea readonly id="prompt-claude-web" aria-label="Prompt for Claude Code on the web">Run the TPG Atlas pre-work. I'm using Claude Code on the web. Fetch https://raw.githubusercontent.com/mkhalife/tpg-atlas-prework/main/PROMPT.md and follow it step by step. It reads my own AI history, drafts a few task records with me, and sends only what I approve.</textarea>
-      <button class="copy" type="button" data-for="prompt-claude-web">Copy the prompt</button>
-    </section>
+        <div class="wp-card panel" id="panel-claude-web" hidden>
+          <p class="wp-type-body-md">Your claude.ai/code cloud sessions.</p>
+          <div class="wp-cluster"><a class="wp-button wp-button--lg" href="https://claude.ai/code?q=Run%20the%20TPG%20Atlas%20pre-work.%20I'm%20using%20Claude%20Code%20on%20the%20web.%20Fetch%20https%3A%2F%2Fraw.githubusercontent.com%2Fmkhalife%2Ftpg-atlas-prework%2Fmain%2FPROMPT.md%20and%20follow%20it%20step%20by%20step.%20It%20reads%20my%20own%20AI%20history%2C%20drafts%20a%20few%20task%20records%20with%20me%2C%20and%20sends%20only%20what%20I%20approve.">Open claude.ai/code</a></div>
+          <p class="muted wp-type-body-sm">The button opens the app with a short prompt typed in. Press Enter to start. If nothing opens, copy the prompt into a new Claude Code on the web session.</p>
+          <textarea class="wp-type-body-sm" rows="4" readonly id="prompt-claude-web" aria-label="Prompt for Claude Code on the web">Run the TPG Atlas pre-work. I'm using Claude Code on the web. Fetch https://raw.githubusercontent.com/mkhalife/tpg-atlas-prework/main/PROMPT.md and follow it step by step. It reads my own AI history, drafts a few task records with me, and sends only what I approve.</textarea>
+          <div><button class="wp-button wp-button--secondary wp-button--sm copy" type="button" data-for="prompt-claude-web">Copy the prompt</button></div>
+        </div>
 
-    <section class="panel" id="panel-chatgpt" hidden>
-      <p>Your Codex sessions on this computer. ChatGPT on the web cannot read its own history, so use the form if that is all you use.</p>
-      <div class="buttons">
-        <a class="btn" href="codex://threads/new?prompt=Run%20the%20TPG%20Atlas%20pre-work.%20I'm%20using%20Codex%20in%20the%20ChatGPT%20desktop%20app.%20Fetch%20https%3A%2F%2Fraw.githubusercontent.com%2Fmkhalife%2Ftpg-atlas-prework%2Fmain%2FPROMPT.md%20and%20follow%20it%20step%20by%20step.%20It%20reads%20my%20own%20AI%20history%2C%20drafts%20a%20few%20task%20records%20with%20me%2C%20and%20sends%20only%20what%20I%20approve.">Open in the ChatGPT desktop app</a>
-      </div>
-      <p class="small">Opens the app with a prompt typed in. Press Enter to start. If nothing opens, copy the prompt into a new ChatGPT or Codex session.</p>
-      <textarea readonly id="prompt-chatgpt" aria-label="Prompt for ChatGPT or Codex">Run the TPG Atlas pre-work. I'm using Codex in the ChatGPT desktop app. Fetch https://raw.githubusercontent.com/mkhalife/tpg-atlas-prework/main/PROMPT.md and follow it step by step. It reads my own AI history, drafts a few task records with me, and sends only what I approve.</textarea>
-      <button class="copy" type="button" data-for="prompt-chatgpt">Copy the prompt</button>
-    </section>
+        <div class="wp-card panel" id="panel-chatgpt" hidden>
+          <p class="wp-type-body-md">Your Codex sessions on this computer. ChatGPT on the web cannot read its own history, so use the form if that is all you use.</p>
+          <div class="wp-cluster"><a class="wp-button wp-button--lg" href="codex://threads/new?prompt=Run%20the%20TPG%20Atlas%20pre-work.%20I'm%20using%20Codex%20in%20the%20ChatGPT%20desktop%20app.%20Fetch%20https%3A%2F%2Fraw.githubusercontent.com%2Fmkhalife%2Ftpg-atlas-prework%2Fmain%2FPROMPT.md%20and%20follow%20it%20step%20by%20step.%20It%20reads%20my%20own%20AI%20history%2C%20drafts%20a%20few%20task%20records%20with%20me%2C%20and%20sends%20only%20what%20I%20approve.">Open in the ChatGPT desktop app</a></div>
+          <p class="muted wp-type-body-sm">The button opens the app with a short prompt typed in. Press Enter to start. If nothing opens, copy the prompt into a new ChatGPT or Codex session.</p>
+          <textarea class="wp-type-body-sm" rows="4" readonly id="prompt-chatgpt" aria-label="Prompt for ChatGPT or Codex">Run the TPG Atlas pre-work. I'm using Codex in the ChatGPT desktop app. Fetch https://raw.githubusercontent.com/mkhalife/tpg-atlas-prework/main/PROMPT.md and follow it step by step. It reads my own AI history, drafts a few task records with me, and sends only what I approve.</textarea>
+          <div><button class="wp-button wp-button--secondary wp-button--sm copy" type="button" data-for="prompt-chatgpt">Copy the prompt</button></div>
+        </div>
 
-    <section class="panel" id="panel-none" hidden>
-      <p>A short form: up to three tasks, once.</p>
-      <div class="buttons">
-        <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSfs6SsFqalXUld2bTiuxVdE8XPv4hoOpuArCydnvkyQEKwlhw/viewform">Open the form</a>
-      </div>
+        <div class="wp-card panel" id="panel-none" hidden>
+          <p class="wp-type-body-md">A short form: up to three tasks, once.</p>
+          <div class="wp-cluster"><a class="wp-button wp-button--lg" href="https://docs.google.com/forms/d/e/1FAIpQLSfs6SsFqalXUld2bTiuxVdE8XPv4hoOpuArCydnvkyQEKwlhw/viewform">Open the form</a></div>
 
-    </section>
-  </section>
-  <aside class="callout" aria-labelledby="how-title">
-    <h2 id="how-title">What happens with what you send</h2>
-    <p>Atlas is a set of notes on how TPG works, kept current by an AI agent. What you send becomes the test it’s graded on.</p>
-    <p class="step">1. You send a task, the questions it needed, and the answers you know.</p>
-    <dl class="rec">
-      <dt>A task you did</dt><dd>Spec the questions a new sign-up flow asks.</dd>
-      <dt>A question it needed</dt><dd>Which user signals are we prioritizing for personalization?</dd>
-      <dt>The answer, if you know it</dt><dd>Six: cards in wallet, program affinity, content affinity, points knowledge, travel frequency, and business-owner status.</dd>
-    </dl>
-    <p class="step">2. We ask Claude your question with and without Atlas, and score each reply against your answer. <span>(Example replies.)</span></p>
-    <div class="runs">
-      <div class="run"><b>Claude, without Atlas</b><q>Common personalization signals are email engagement, location and browsing history.</q><span class="no">✗ None of the six</span></div>
-      <div class="run"><b>Claude, with Atlas</b><q>TPG prioritizes six: cards in wallet, program affinity, content affinity, points knowledge, travel frequency and business-owner status.</q><span class="ok">✓ Matches your answer</span></div>
+        </div>
     </div>
-    <p class="step">3. A miss tells the agent what to learn. <span>Every update has to keep passing your question.</span></p>
-  </aside>
+  </div></div></section>
+  <section data-theme="subtle" id="example"><div class="wp-container"><div class="wp-section wp-section--hero wp-grid"><div class="span-read wp-stack wp-stack--24">
+    <h2 class="heading wp-type-heading-sm">What a test looks like</h2>
+    <div class="wp-card">
+      <dl class="record wp-type-body-md">
+        <dt class="wp-type-subheading-xs">A task you did</dt><dd>Spec the questions a new sign-up flow asks.</dd>
+        <dt class="wp-type-subheading-xs">A question it needed</dt><dd>Which user signals are we prioritizing for personalization?</dd>
+        <dt class="wp-type-subheading-xs">The answer you know</dt><dd>Six: cards in wallet, program affinity, content affinity, points knowledge, travel frequency, business-owner status.</dd>
+      </dl>
+    </div>
+    <div class="runs">
+      <div class="wp-card wp-card--sm"><p class="wp-type-subheading-xs">Claude without Atlas</p><p class="quote wp-type-body-sm">“Common personalization signals are email engagement, location and browsing history.”</p><p class="verdict verdict--miss wp-type-ui-action-sm"><span class="wp-icon wp-icon--x wp-icon--xs" aria-hidden="true"></span>Misses: none of the six</p></div>
+      <div class="wp-card wp-card--sm"><p class="wp-type-subheading-xs">Claude with Atlas</p><p class="quote wp-type-body-sm">“TPG prioritizes six: cards in wallet, program affinity, content affinity, points knowledge, travel frequency and business-owner status.”</p><p class="verdict verdict--hit wp-type-ui-action-sm"><span class="wp-icon wp-icon--check-circle wp-icon--xs" aria-hidden="true"></span>Passes: matches your answer</p></div>
+    </div>
+    <p class="muted wp-type-body-sm">Example replies. Where Atlas misses, we fix what it learned from, and every update has to keep passing your question.</p>
+  </div></div></div></section>
+  <section class="wp-container"><div class="wp-section wp-section--hero wp-grid"><div class="span-read wp-stack wp-stack--16">
+    <h2 class="heading wp-type-heading-sm">Questions</h2>
+    <div class="wp-accordion">
+      <details class="wp-accordion__item"><summary class="wp-accordion__trigger">Is it anonymous? <span class="wp-icon wp-icon--caret-down" aria-hidden="true"></span></summary><div class="wp-accordion__panel"><p>Yes. No name or email is sent. The send page asks you to sign in with your Red Ventures Google account to keep it internal, and doesn’t record who you are.</p></div></details>
+      <details class="wp-accordion__item"><summary class="wp-accordion__trigger">What exactly gets sent? <span class="wp-icon wp-icon--caret-down" aria-hidden="true"></span></summary><div class="wp-accordion__panel"><p>Only the rows you approve: a few tasks, the questions about TPG each one needed, the answers if you know them, and where those answers live. Never a transcript or a quote from your chats.</p></div></details>
+      <details class="wp-accordion__item"><summary class="wp-accordion__trigger">Google asked me to sign in with an administrator account. <span class="wp-icon wp-icon--caret-down" aria-hidden="true"></span></summary><div class="wp-accordion__panel"><p>Pick your Red Ventures account anyway. If the page still doesn’t load, open the link again.</p></div></details>
+      <details class="wp-accordion__item"><summary class="wp-accordion__trigger">What if a task is sensitive? <span class="wp-icon wp-icon--caret-down" aria-hidden="true"></span></summary><div class="wp-accordion__panel"><p>Your AI leaves out names, partner deal terms, revenue figures and anything from private channels, and you can drop or edit any row before you send.</p></div></details>
+      <details class="wp-accordion__item"><summary class="wp-accordion__trigger">I don’t use AI much for work. <span class="wp-icon wp-icon--caret-down" aria-hidden="true"></span></summary><div class="wp-accordion__panel"><p>Pick the last option and use the short form. It asks for up to three tasks and takes about 5 minutes.</p></div></details>
+    </div>
+  </div></div></section>
 </main>
 <script>
   const panels = document.querySelectorAll('.panel');
-  document.querySelectorAll('input[name=tool]').forEach((r) => r.addEventListener('change', () => {
+  const radios = document.querySelectorAll('input[name=tool]');
+  // Start with nothing chosen, even when the browser restores an earlier choice.
+  addEventListener('pageshow', () => { radios.forEach((r) => { r.checked = false; }); panels.forEach((p) => { p.hidden = true; }); });
+  radios.forEach((r) => r.addEventListener('change', () => {
     panels.forEach((p) => { p.hidden = p.id !== 'panel-' + r.value; });
-    const shown = document.getElementById('panel-' + r.value);
-    shown.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
+    document.getElementById('panel-' + r.value).scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
   }));
   document.querySelectorAll('.copy').forEach((b) => b.addEventListener('click', async () => {
     const t = document.getElementById(b.dataset.for);
